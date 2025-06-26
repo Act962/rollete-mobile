@@ -7,7 +7,7 @@ import {
   Easing,
   Modal,
   useWindowDimensions,
-  Image
+  Image,
 } from 'react-native';
 import tw from 'twrnc';
 import Svg, { G, Path, Circle, Text as SvgText } from 'react-native-svg';
@@ -15,8 +15,7 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { store, PRIZES_TABLE, USERS_TABLE } from '../../config/store';
-import { updateRow } from '../../config/store'
+import { store, PRIZES_TABLE, updateRow } from '../../config/store';
 
 import { styles } from './style';
 import { Button } from '../../components/buttom/Buttom';
@@ -66,7 +65,7 @@ function Roullete() {
           probability: value.probability ?? 1,
           quant: value.quant,
           isPrize: value.isPrize,
-          prizeReal: value.prizeReal
+          prizeReal: value.prizeReal,
         }))
         .filter((prize) => prize.quant > 0);
 
@@ -100,14 +99,13 @@ function Roullete() {
     setIsSpinning(true);
 
     const winnerIndex = getPrizeByProbability();
-
     const rounds = 5;
-    const endRotation =
-      rounds * 360 +
-      (prizes.length - winnerIndex) * anglePerSlice - anglePerSlice / 2;
+
+    const angleToTop = winnerIndex * anglePerSlice + anglePerSlice / 2;
+    const endRotation = rounds * 360 + angleToTop;
 
     Animated.timing(rotation, {
-      toValue: endRotation,
+      toValue: -endRotation,
       duration: 4000,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: true,
@@ -115,7 +113,7 @@ function Roullete() {
       const prize = prizes[winnerIndex];
       setResult(prize);
       setModalVisible(true);
-      rotation.setValue(endRotation % 360);
+      rotation.setValue(-endRotation % 360);
 
       if (prize.isPrize) {
         setShowConfetti(true);
@@ -126,8 +124,8 @@ function Roullete() {
   };
 
   const rotate = rotation.interpolate({
-    inputRange: [0, 360],
-    outputRange: ['0deg', '360deg'],
+    inputRange: [-360, 0],
+    outputRange: ['-360deg', '0deg'],
   });
 
   const polarToCartesian = (
@@ -136,7 +134,7 @@ function Roullete() {
     r: number,
     angleInDegrees: number
   ) => {
-    const angleInRadians = ((angleInDegrees - 0) * Math.PI) / 180.0;
+    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
     return {
       x: centerX + r * Math.cos(angleInRadians),
       y: centerY + r * Math.sin(angleInRadians),
@@ -160,15 +158,20 @@ function Roullete() {
     ].join(' ');
   };
 
-  const getTextPosition = (index: number) => {
-    const angle = anglePerSlice * index + anglePerSlice / 2;
-    const pos = polarToCartesian(center, center, radius * 0.65, angle);
-    return { ...pos, angle };
-  };
+// Ajuste a função getTextPosition para posicionar o texto mais longe do centro
+const getTextPosition = (index: number) => {
+  const angle = anglePerSlice * index + anglePerSlice / 2;
+  // Distância do centro, aumentei para 50% do raio
+  const pos = polarToCartesian(center, center, radius * 0.6, angle);
+  return { ...pos, angle };
+};
 
   return (
     <View style={styles.Container}>
-      <Image style={styles.imagem} source={require("../../assets/Logo_Paslimina.png")} />
+      <Image
+        style={styles.imagem}
+        source={require('../../assets/Logo_Paslimina.png')}
+      />
       <Text style={styles.Title}>Girou Ganhou</Text>
 
       <View style={tw`justify-center items-center mb-10`}>
@@ -176,30 +179,35 @@ function Roullete() {
           <Svg width={wheelSize} height={wheelSize}>
             <G>
               {prizes.map((item, index) => {
-                const { x, y, angle } = getTextPosition(index);
-                return (
-                  <G key={index}>
-                    <Path
-                      d={createArc(index)}
-                      fill={item.color || '#333'}
-                      stroke="#fff"
-                      strokeWidth={2}
-                    />
-                    <SvgText
-                      x={x}
-                      y={y}
-                      fill="#fff"
-                      fontSize={16}
-                      fontWeight="bold"
-                      textAnchor="middle"
-                      alignmentBaseline="middle"
-                      transform={`rotate(${angle} ${x} ${y})`}
-                    >
-                      {item.name}
-                    </SvgText>
-                  </G>
-                );
-              })}
+  const { x, y, angle } = getTextPosition(index);
+
+  // Gira o texto para ficar apontando para o centro (fatia + 180°)
+  const textAngle = angle + 90;
+
+  return (
+    <G key={index}>
+      <Path
+        d={createArc(index)}
+        fill={item.color || '#333'}
+        stroke="#fff"
+        strokeWidth={2}
+      />
+      <SvgText
+        x={x}
+        y={y}
+        fill="#fff"
+        fontSize={16}
+        fontWeight="bold"
+        textAnchor="middle"
+        alignmentBaseline="middle"
+        transform={`rotate(${textAngle} ${x} ${y})`}
+      >
+        {item.name}
+      </SvgText>
+    </G>
+  );
+})}
+
               <Circle
                 cx={center}
                 cy={center}
@@ -237,7 +245,7 @@ function Roullete() {
 
       <View style={styles.subContainer}>
         <Button
-        size={24}
+          size={24}
           title={isSpinning ? 'Girando...' : 'Girar Roleta'}
           onPress={spin}
           disabled={isSpinning}
@@ -264,10 +272,12 @@ function Roullete() {
 
           <View style={tw`bg-white p-8 rounded-2xl items-center z-10`}>
             <Text style={tw`text-2xl font-bold mb-4`}>
-              {result?.isPrize ? "🎉 Parabéns!" : "Que Pena"}
+              {result?.isPrize ? '🎉 Parabéns!' : 'Que Pena'}
             </Text>
             <Text style={tw`text-lg mb-6`}>
-              {result?.isPrize ? `Você ganhou ${result?.prizeReal}` : `${result?.prizeReal}`}
+              {result?.isPrize
+                ? `Você ganhou ${result?.prizeReal}`
+                : `${result?.prizeReal}`}
             </Text>
 
             <Pressable
@@ -283,7 +293,7 @@ function Roullete() {
               }}
             >
               <Text style={tw`text-white font-bold`}>
-                {result?.isPrize ? "Resgatar" : "Concluir"}
+                {result?.isPrize ? 'Resgatar' : 'Concluir'}
               </Text>
             </Pressable>
           </View>
