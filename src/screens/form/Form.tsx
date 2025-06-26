@@ -149,7 +149,7 @@ const Form: React.FC<Props> = ({ navigation }) => {
                 padding: 10,
                 width: "100%",
                 height: 55,
-                borderColor: "##D88200"
+                borderColor: "#D88200"
               }}
             />
           </View>
