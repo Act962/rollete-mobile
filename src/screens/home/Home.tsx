@@ -60,7 +60,7 @@ export default function HomeScreen() {
       
       {/* ⚙️ Ícone de configurações */}
       <View style={[styles.subContainer, {marginTop: 16, marginLeft: 16}]}>
-        <Pressable onPress={() => setDropdownVisible(!dropdownVisible)}>
+        <Pressable style={{ marginTop: 32 }} onPress={() => setDropdownVisible(!dropdownVisible)}>
           <Icon name="gear" size={24} color="purple" />
         </Pressable>
 

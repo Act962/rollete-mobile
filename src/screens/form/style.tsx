@@ -13,24 +13,21 @@ export const styles = StyleSheet.create({
 
     },
     imagem: {
-        width: 150,
-        height: 100,
-        position: "absolute",
-        top: 0,
-        right: 0
+        width: RFValue(200),
+        height: RFValue(100),
 
     },
     Title: {
         fontSize: RFValue(32),
         fontWeight: 700,
-        color: "#ab5500",
+        color: "#333333",
         alignItems: "center",
         alignContent: "center",
         textAlign: "center"
     },
     subTitile: {
         fontSize: RFValue(14),
-        fontWeight: 800,
+        fontWeight: 600,
         color: "#333333"
     },
         textInstructions: {

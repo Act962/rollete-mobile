@@ -4,6 +4,7 @@ import tw from 'twrnc';
 import { store, PRIZES_TABLE } from '../config/store';
 
 import { CircleDashed, CircleCheck } from "lucide-react-native";
+import { Button } from '../components/buttom/Buttom';
 
 
 
@@ -16,9 +17,11 @@ interface Prize {
   probability: number;
   quant: number
   isPrize: boolean
+  order: number
 }
 
 const Admin = () => {
+  const [loadingDownload, setLoadingDownload] = useState(false)
   const [name, setName] = useState('');
   const [prizeReal, setPrizeReal] = useState('');
   const [color, setColor] = useState('#f94144');
@@ -85,6 +88,35 @@ const Admin = () => {
   const deletePrize = (rowId: string) => {
     store.delRow(PRIZES_TABLE, rowId);
   };
+
+  const DownloadData = async () => {
+    setLoadingDownload(true)
+      try {
+        const response = await fetch("https://nasago.bubbleapps.io/version-test/api/1.1/wf/prizers-nasa");
+        
+        const data = await response.json().then(res => res.response.prizers) as Prize[]
+        for (let i in data) {
+          store.addRow(PRIZES_TABLE, {
+            name: data[i].name,
+            color: data[i].color,
+            probability: data[i].probability,
+            quant: data[i].quant,
+            isPrize: data[i].isPrize,
+            prizeReal: data[i].prizeReal
+          })
+        }
+        setLoadingDownload(false)
+      } catch (error) {
+        Alert.alert("Erro de conexão ou inesperado.");
+        console.error('Erro:', error);
+      } finally {
+        setLoadingDownload(false)
+      }
+    };
+
+    //Premio1234@
+    //Fala1234@
+  
 
   return (
     <View style={tw`flex-1 p-4 bg-white`}>
@@ -167,10 +199,13 @@ const Admin = () => {
               >
                 <Text style={tw`text-white`}>🗑️ Excluir</Text>
               </Pressable>
+
+              
             </View>
           );
         }}
       />
+      <Button title={loadingDownload ? "Carregando...": "Baixar prêmios"} size={22} onPress={ DownloadData}/>
     </View>
   );
 };

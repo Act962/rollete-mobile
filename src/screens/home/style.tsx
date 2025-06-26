@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
+import { useFonts, Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
 
 export const styles = StyleSheet.create({
     container:{
@@ -26,22 +26,23 @@ export const styles = StyleSheet.create({
     Title: {
         fontSize: RFValue(36),
         fontWeight: 700,
-        color: "#ab5500"
+        color: "#333333",
+        fontFamily:"Nunito_400Regular"
     },
     subTitile: {
         fontSize: RFValue(26),
         fontWeight: 800,
-        color: "#de8228"
+        color: "#333333"
     },
         textInstructions: {
         fontSize: RFValue(18),
         fontWeight: 600,
-        color: "#FFFFFF",
+        color: "#333333",
         textAlign:"center"
     },
     containerInstructions:{
         justifyContent:"center",
-        backgroundColor:"#de8328",
+        backgroundColor:"#f6fa04",
         borderRadius:10,
         paddingLeft: 16,
         paddingRight:16,

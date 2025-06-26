@@ -10,6 +10,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Image
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import validator from "email-validator";
@@ -83,12 +84,7 @@ const Form: React.FC<Props> = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
         >
           <View style={tw`items-center mt-4`}>
-            <LottieView
-              source={require("../../animations/Form.json")}
-              autoPlay
-              loop
-              style={tw`w-1/2 h-40`}
-            />
+          <Image style={styles.imagem} source={require("../../assets/Logo_Paslimina.png")} />
           </View>
 
           <Text
