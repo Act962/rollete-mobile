@@ -102,7 +102,8 @@ const Admin = () => {
             probability: data[i].probability,
             quant: data[i].quant,
             isPrize: data[i].isPrize,
-            prizeReal: data[i].prizeReal
+            prizeReal: data[i].prizeReal,
+            order: data[i].order
           })
         }
         setLoadingDownload(false)
@@ -178,7 +179,7 @@ const Admin = () => {
 
       {/* Lista de Prêmios */}
       <FlatList
-        data={prizes}
+        data={prizes.sort(([, prizeA], [, prizeB]) => prizeA.order - prizeB.order)}
         keyExtractor={([id]) => id}
         renderItem={({ item }) => {
           const [id, prize] = item;

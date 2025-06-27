@@ -16,11 +16,13 @@ export const styles = StyleSheet.create({
 
     },
     imagem: {
-        width: 150,
-        height: 100,
+        width: RFValue(120),
+        height: RFValue(70),
         position: "absolute",
         top: 0,
-        right: 0
+        right: 0,
+        marginRight: 8,
+        marginTop:16
 
     },
     Title: {
@@ -48,6 +50,12 @@ export const styles = StyleSheet.create({
         paddingRight:16,
         paddingTop:24,
         paddingBottom:24
+    },
+    containerFooter:{
+        justifyContent:"center", 
+        width:"100%", 
+        paddingLeft: 24,
+        paddingRight: 24
     }
 
 })

@@ -92,7 +92,7 @@ export default function HomeScreen() {
       <Image style={styles.imagem} source={require("../../assets/Logo_Paslimina.png")} />
 
       {/* Conteúdo principal */}
-      <View style={{alignItems:"center"}}>
+      <View style={{alignItems:"center", justifyContent:"center"}}>
         <Text style={styles.Title}>Bem-vindo ao{"\n"}Girou Ganhou!</Text>
 
         <LottieView
@@ -110,7 +110,7 @@ export default function HomeScreen() {
           <Text style={styles.textInstructions}>Cada cadastro tem direito a um giro.</Text>
         </View>
 
-        <View style={{justifyContent:"center"}}>
+        <View style={styles.containerFooter}>
           <Button title="Iniciar" size={20} onPress={() => navigation.navigate("Form")} />
         </View>
       </View>

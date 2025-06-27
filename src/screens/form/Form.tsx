@@ -76,11 +76,11 @@ const Form: React.FC<Props> = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={tw`flex-1`}
+      style={styles.subContainer}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
         <ScrollView
-          contentContainerStyle={tw`flex-grow px-4 mb-20`}
+          
           keyboardShouldPersistTaps="handled"
         >
           <View style={tw`items-center mt-4`}>
@@ -139,13 +139,13 @@ const Form: React.FC<Props> = ({ navigation }) => {
               placeholder="(00) 00000-0000"
               style={{
                 color: "#333333",
-                fontSize: RFValue(12),
+                fontSize: RFValue(16),
                 fontWeight: 600,
                 borderWidth: 1,
                 borderRadius: 20,
                 padding: 10,
                 width: "100%",
-                minHeight: 55,
+                minHeight: 65,
                 borderColor: "#D88200"
               }}
             />
@@ -160,7 +160,6 @@ const Form: React.FC<Props> = ({ navigation }) => {
           disabled={!loaded} />
             </View>
         </ScrollView>
-      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };

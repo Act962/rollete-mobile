@@ -36,6 +36,7 @@ interface Prize {
   probability: number;
   quant: number;
   isPrize: boolean;
+  order: number
 }
 
 function Roullete() {
@@ -67,6 +68,7 @@ function Roullete() {
           quant: value.quant,
           isPrize: value.isPrize,
           prizeReal: value.prizeReal,
+          order: value.order
         }))
         .filter((prize) => prize.quant > 0);
 
@@ -179,7 +181,7 @@ const getTextPosition = (index: number) => {
         <Animated.View style={{ transform: [{ rotate }] }}>
           <Svg width={wheelSize} height={wheelSize}>
             <G>
-              {prizes.map((item, index) => {
+              {prizes.sort((a,b) => a.order - b.order).map((item, index) => {
   const { x, y, angle } = getTextPosition(index);
 
   // Gira o texto para ficar apontando para o centro (fatia + 180°)

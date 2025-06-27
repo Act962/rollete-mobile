@@ -20,13 +20,14 @@ export const styles = StyleSheet.create({
     Title: {
         fontSize: RFValue(30),
         fontWeight: 700,
-        color: "#ab5500",
+        color: "#333333",
         textAlign:"center"
     },
     subContainer:{
         justifyContent:"center",
         borderRadius:10,
-        padding: 16,
-        alignItems:"center"
+        padding: 24,
+        alignItems:"center",
+        width:"100%"
     }
 })
